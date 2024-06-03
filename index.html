@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebX Domain Management</title>
+</head>
+<body>
+    <h1>Domain Management</h1>
+    
+    <h2>Create Domain</h2>
+    <form id="createDomainForm" onsubmit="return createDomain()">
+        <label for="name">Domain Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="tld">TLD:</label>
+        <input type="text" id="tld" name="tld" required><br>
+        <label for="ip">IP Address:</label>
+        <input type="text" id="ip" name="ip" required><br>
+        <button type="submit">Create Domain</button>
+    </form>
+    
+    <h2>All Domains</h2>
+    <button onclick="fetchDomains()">Get All Domains</button>
+    <pre id="allDomains"></pre>
+
+    <script type="application/lua" src="api.lua"></script>
+    <script type="text/javascript">
+        function createDomain() {
+            const name = document.getElementById("name").value;
+            const tld = document.getElementById("tld").value;
+            const ip = document.getElementById("ip").value;
+            const result = lua.call("register_domain", name, tld, ip);
+            alert("Create Domain Response: " + result);
+            return false;
+        }
+
+        function fetchDomains() {
+            const result = lua.call("fetch_all_domains");
+            document.getElementById("allDomains").innerText = result;
+        }
+    </script>
+</body>
+</html>
